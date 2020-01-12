@@ -34,7 +34,29 @@ public class RangeEntityPathTest extends BaseCoreFunctionalTestCase {
     public void rangeEntityPathTest() {
         doInJPA(this::sessionFactory, entityManager -> {
             List<RangeEntity> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT).from(rangeEntity).select(rangeEntity)
-                .where(rangeEntity.localDateTimeRange.intersects(Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay())))
+                .where(rangeEntity.localDateTimeRange.overlaps(Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay())))
+                .fetch();
+
+            Assert.assertFalse(fetch.isEmpty());
+        });
+    }
+
+    @Test
+    public void selectLower() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            List<LocalDateTime> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(rangeEntity).select(rangeEntity.localDateTimeRange.lower())
+                    .fetch();
+
+            Assert.assertFalse(fetch.isEmpty());
+        });
+    }
+
+    @Test
+    public void rangeEntityPathContainedByTest() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            List<RangeEntity> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT).from(rangeEntity).select(rangeEntity)
+                .where(rangeEntity.localDateTimeRange.isContainedBy(Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay())))
                 .fetch();
 
             Assert.assertFalse(fetch.isEmpty());

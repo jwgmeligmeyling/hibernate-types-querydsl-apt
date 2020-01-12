@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
-@TypeDef(name = "range", typeClass = PostgreSQLGuavaRangeType.class, defaultForType = Range.class)
+@TypeDef(name = "range", typeClass = ExtendedPostgreSQLGuavaRangeType.class, defaultForType = Range.class)
 public class RangeEntity {
 
     @Id
