@@ -23,14 +23,14 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
         metadataBuilder.applySqlFunction(RangeOps.STRICTLY_RIGHT_OF.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 >> ?2"));
         metadataBuilder.applySqlFunction(RangeOps.ADJACENT_TO.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 -|- ?2"));
 
-        metadataBuilder.applySqlFunction(RangeOps.UNION.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 -|- ?2") {
+        metadataBuilder.applySqlFunction(RangeOps.UNION.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 + ?2") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 return argumentType;
             }
         });
 
-        metadataBuilder.applySqlFunction(RangeOps.INTERSECTION.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 + ?2") {
+        metadataBuilder.applySqlFunction(RangeOps.INTERSECTION.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 * ?2") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 return argumentType;

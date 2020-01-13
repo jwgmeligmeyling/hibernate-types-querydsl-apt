@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.10.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-testing</artifactId>
-            <version>5.4.10.Final</version>
+            <version>${hibernate.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
