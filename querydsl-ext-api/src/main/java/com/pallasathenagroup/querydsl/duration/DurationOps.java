@@ -12,6 +12,7 @@ public enum DurationOps implements Operator {
     AVG(Duration.class),
     MAX(Duration.class),
     MIN(Duration.class),
+    SUM(Duration.class),
     BETWEEN(Duration.class);
 
     private final Class<?> type;

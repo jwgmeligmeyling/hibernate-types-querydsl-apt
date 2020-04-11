@@ -12,6 +12,7 @@ public enum PeriodOps implements Operator {
     AVG(Period.class),
     MAX(Period.class),
     MIN(Period.class),
+    SUM(Period.class),
     BETWEEN(Period.class);
 
     private final Class<?> type;

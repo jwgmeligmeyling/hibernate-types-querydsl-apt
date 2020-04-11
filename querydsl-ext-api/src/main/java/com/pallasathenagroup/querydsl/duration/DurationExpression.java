@@ -22,6 +22,10 @@ public class DurationExpression extends TypedParameterValueComparableExpression<
         return new DurationOperation(Expressions.operation(Duration.class, DurationOps.MAX, this));
     }
 
+    public DurationOperation sum() {
+        return new DurationOperation(Expressions.operation(Duration.class, DurationOps.SUM, this));
+    }
+
     public DurationOperation min() {
         return new DurationOperation(Expressions.operation(Duration.class, DurationOps.MIN, this));
     }

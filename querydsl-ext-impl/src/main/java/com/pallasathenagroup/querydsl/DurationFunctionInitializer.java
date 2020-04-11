@@ -26,6 +26,7 @@ public class DurationFunctionInitializer implements MetadataBuilderInitializer {
         metadataBuilder.applySqlFunction("DURATION_AVG", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "AVG(?1)"));
         metadataBuilder.applySqlFunction("DURATION_MAX", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "MAX(?1)"));
         metadataBuilder.applySqlFunction("DURATION_MIN", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "MIN(?1)"));
+        metadataBuilder.applySqlFunction("DURATION_SUM", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "SUM(?1)"));
 
     }
 

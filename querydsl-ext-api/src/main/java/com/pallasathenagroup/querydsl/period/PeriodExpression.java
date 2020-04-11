@@ -23,6 +23,10 @@ public class PeriodExpression extends TypedParameterValueSimpleExpression<Period
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.MAX, this));
     }
 
+    public PeriodOperation sum() {
+        return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.SUM, this));
+    }
+
     public PeriodOperation min() {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.MIN, this));
     }

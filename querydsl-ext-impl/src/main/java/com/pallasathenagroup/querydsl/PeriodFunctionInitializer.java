@@ -18,6 +18,7 @@ public class PeriodFunctionInitializer implements MetadataBuilderInitializer {
         metadataBuilder.applySqlFunction("PERIOD_AVG", new SQLFunctionTemplate(PostgreSQLPeriodType.INSTANCE, "AVG(?1)"));
         metadataBuilder.applySqlFunction("PERIOD_MAX", new SQLFunctionTemplate(PostgreSQLPeriodType.INSTANCE, "MAX(?1)"));
         metadataBuilder.applySqlFunction("PERIOD_MIN", new SQLFunctionTemplate(PostgreSQLPeriodType.INSTANCE, "MIN(?1)"));
+        metadataBuilder.applySqlFunction("PERIOD_SUM", new SQLFunctionTemplate(PostgreSQLPeriodType.INSTANCE, "SUM(?1)"));
 
     }
 

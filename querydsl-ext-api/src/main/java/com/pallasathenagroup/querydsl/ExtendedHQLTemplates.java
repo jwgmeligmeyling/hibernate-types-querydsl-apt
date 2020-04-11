@@ -47,6 +47,7 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         add(DurationOps.AVG, "DURATION_AVG({0})");
         add(DurationOps.MAX, "DURATION_MAX({0})");
         add(DurationOps.MIN, "DURATION_MIN({0})");
+        add(DurationOps.SUM, "DURATION_SUM({0})");
 
         add(PeriodOps.BETWEEN, "PERIOD_BETWEEN({0}, {1})");
         add(PeriodOps.ADD, "PERIOD_ADD({0}, {1})");
@@ -56,6 +57,7 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         add(PeriodOps.AVG, "PERIOD_AVG({0})");
         add(PeriodOps.MAX, "PERIOD_MAX({0})");
         add(PeriodOps.MIN, "PERIOD_MIN({0})");
+        add(PeriodOps.SUM, "PERIOD_SUM({0})");
     }
 
 }
