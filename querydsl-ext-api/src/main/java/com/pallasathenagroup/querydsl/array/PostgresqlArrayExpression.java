@@ -1,5 +1,6 @@
 package com.pallasathenagroup.querydsl.array;
 
+import com.pallasathenagroup.querydsl.TypedParameterValueSimpleExpression;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.ArrayExpression;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @SuppressWarnings("unchecked")
-public class PostgresqlArrayExpression<A, T> extends SimpleExpression<A> implements ArrayExpression<A, T> {
+public class PostgresqlArrayExpression<A, T> extends TypedParameterValueSimpleExpression<A> implements ArrayExpression<A, T> {
 
     private final String columnDefinition;
 
@@ -62,15 +63,15 @@ public class PostgresqlArrayExpression<A, T> extends SimpleExpression<A> impleme
     }
 
     public BooleanOperation overlaps(T... other) {
-        return Expressions.predicate(ArrayOps.OVERLAPS, this, new PostgresqlArrayExpression<>(Expressions.constant(getTypedParameterValue(other)), columnDefinition));
+        return Expressions.predicate(ArrayOps.OVERLAPS, this, new PostgresqlArrayExpression<>(Expressions.constant(getTypedParameterValue(other, columnDefinition)), columnDefinition));
     }
 
     public BooleanOperation contains(T... other) {
-        return Expressions.predicate(ArrayOps.CONTAINS, this, new PostgresqlArrayExpression<>(Expressions.constant(getTypedParameterValue(other)), columnDefinition));
+        return Expressions.predicate(ArrayOps.CONTAINS, this, new PostgresqlArrayExpression<>(Expressions.constant(getTypedParameterValue(other, columnDefinition)), columnDefinition));
     }
 
     public BooleanOperation isContainedBy(T... other) {
-        return Expressions.predicate(ArrayOps.IS_CONTAINED_BY, this, new PostgresqlArrayExpression<>(Expressions.constant(getTypedParameterValue(other)), columnDefinition));
+        return Expressions.predicate(ArrayOps.IS_CONTAINED_BY, this, new PostgresqlArrayExpression<>(Expressions.constant(getTypedParameterValue(other, columnDefinition)), columnDefinition));
     }
 
     public SimpleExpression<T> unnest() {
@@ -98,7 +99,7 @@ public class PostgresqlArrayExpression<A, T> extends SimpleExpression<A> impleme
     }
 
     public PostgresqlArrayOperation<A, T> concat(T... other) {
-        return new PostgresqlArrayOperation<>(Expressions.simpleOperation(getType(), ArrayOps.CONCAT, this, Expressions.constant(getTypedParameterValue(other))), columnDefinition);
+        return new PostgresqlArrayOperation<>(Expressions.simpleOperation(getType(), ArrayOps.CONCAT, this, Expressions.constant(getTypedParameterValue(other, columnDefinition))), columnDefinition);
     }
 
     public NumberOperation<Integer> ndims() {
@@ -109,14 +110,19 @@ public class PostgresqlArrayExpression<A, T> extends SimpleExpression<A> impleme
         return Expressions.stringOperation(ArrayOps.DIMS, this);
     }
 
+    @Override
+    protected Expression<A> constant(A right) {
+        return (Expression) Expressions.constant(getTypedParameterValue((T[]) right, columnDefinition));
+    }
+
     @Nullable
     @Override
     public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
         return mixin.accept(v, context);
     }
 
-    private Object getTypedParameterValue(T[] other) {
-        Class<?> componentType = getType().getComponentType();
+    public static <T> Object getTypedParameterValue(T[] other, String columnDefinition) {
+        Class<?> componentType = other.getClass().getComponentType();
         if (componentType.equals(UUID.class)) {
             return new TypedParameterValue(UUIDArrayType.INSTANCE, other);
         } else if (componentType.equals(String.class)) {

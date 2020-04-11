@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static com.pallasathenagroup.querydsl.HibernateTypesExpressions.createArrayExpression;
 import static com.pallasathenagroup.querydsl.QArrayEntity.arrayEntity;
 import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;
 import static org.junit.Assert.assertArrayEquals;
@@ -63,6 +64,7 @@ public class ArrayEntityPathTest extends BaseCoreFunctionalTestCase {
                             arrayEntity.sensorStates.concat(SensorState.ONLINE, SensorState.UNKNOWN).contains(SensorState.ONLINE),
                             arrayEntity.sensorStates.get(0)
                             )
+                    .where(createArrayExpression(1, 2).contains(createArrayExpression(1,2 )))
                     .fetch();
 
             Tuple tuple = fetch.get(0);

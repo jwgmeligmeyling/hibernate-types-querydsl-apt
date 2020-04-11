@@ -1,24 +1,30 @@
 package com.pallasathenagroup.querydsl.range;
 
 import com.google.common.collect.Range;
+import com.pallasathenagroup.querydsl.TypedParameterValueSimpleExpression;
 import com.querydsl.core.types.Constant;
 import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseForEqBuilder;
 import com.querydsl.core.types.dsl.ComparableExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import com.vladmihalcea.hibernate.type.range.guava.PostgreSQLGuavaRangeType;
 import org.hibernate.jpa.TypedParameterValue;
 
-public abstract class RangeExpression<X extends Comparable<?>> extends SimpleExpression<Range<X>> {
+import javax.annotation.Nullable;
+
+public class RangeExpression<X extends Comparable<?>> extends TypedParameterValueSimpleExpression<Range<X>> {
 
     public RangeExpression(Expression<Range<X>> mixin) {
         super(mixin);
     }
 
+    @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private Constant<Range<X>> constant(Range<X> other) {
+    protected Constant<Range<X>> constant(Range<X> other) {
         return (Constant) ConstantImpl.create(new TypedParameterValue(PostgreSQLGuavaRangeType.INSTANCE, other));
     }
 
@@ -120,5 +126,9 @@ public abstract class RangeExpression<X extends Comparable<?>> extends SimpleExp
         return (ComparableExpression) Expressions.comparableOperation(Comparable.class, RangeOps.UPPER_BOUND, mixin);
     }
 
-
+    @Nullable
+    @Override
+    public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
+        return mixin.accept(v, context);
+    }
 }

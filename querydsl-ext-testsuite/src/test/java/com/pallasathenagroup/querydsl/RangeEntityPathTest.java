@@ -37,6 +37,7 @@ public class RangeEntityPathTest extends BaseCoreFunctionalTestCase {
 
             List<RangeEntity> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT).from(rangeEntity).select(rangeEntity)
                 .where(rangeEntity.localDateTimeRange.overlaps(other))
+                .where(HibernateTypesExpressions.createRangeExpression(other).eq(other))
                 .fetch();
 
             Assert.assertFalse(fetch.isEmpty());

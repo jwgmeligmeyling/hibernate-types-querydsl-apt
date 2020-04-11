@@ -1,8 +1,12 @@
 package com.pallasathenagroup.querydsl;
 
 import com.pallasathenagroup.querydsl.array.ArrayOps;
+import com.pallasathenagroup.querydsl.duration.DurationOps;
+import com.pallasathenagroup.querydsl.period.PeriodOps;
 import com.pallasathenagroup.querydsl.range.RangeOps;
 import com.querydsl.jpa.HQLTemplates;
+
+import java.time.Duration;
 
 public class ExtendedHQLTemplates extends HQLTemplates {
 
@@ -34,6 +38,24 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         add(ArrayOps.TOSTRING, "ARRAY_TOSTRING({0})");
         add(ArrayOps.UNNEST, "ARRAY_UNNEST({0})");
         add(ArrayOps.ELEMENT_AT, "ARRAY_ELEMENT_AT({0}, {1})");
+
+        add(DurationOps.BETWEEN, "DURATION_BETWEEN({0}, {1})");
+        add(DurationOps.ADD, "DURATION_ADD({0}, {1})");
+        add(DurationOps.SUBTRACT, "DURATION_SUBTRACT({0}, {1})");
+        add(DurationOps.MULTIPLY, "DURATION_MULTIPLY({0}, {1})");
+        add(DurationOps.DIVIDE, "DURATION_DIVIDE({0}, {1})");
+        add(DurationOps.AVG, "DURATION_AVG({0})");
+        add(DurationOps.MAX, "DURATION_MAX({0})");
+        add(DurationOps.MIN, "DURATION_MIN({0})");
+
+        add(PeriodOps.BETWEEN, "PERIOD_BETWEEN({0}, {1})");
+        add(PeriodOps.ADD, "PERIOD_ADD({0}, {1})");
+        add(PeriodOps.SUBTRACT, "PERIOD_SUBTRACT({0}, {1})");
+        add(PeriodOps.MULTIPLY, "PERIOD_MULTIPLY({0}, {1})");
+        add(PeriodOps.DIVIDE, "PERIOD_DIVIDE({0}, {1})");
+        add(PeriodOps.AVG, "PERIOD_AVG({0})");
+        add(PeriodOps.MAX, "PERIOD_MAX({0})");
+        add(PeriodOps.MIN, "PERIOD_MIN({0})");
     }
 
 }
