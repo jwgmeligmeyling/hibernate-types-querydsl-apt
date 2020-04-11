@@ -1,5 +1,7 @@
 package com.pallasathenagroup.querydsl;
 
+import com.pallasathenagroup.querydsl.array.ArrayOps;
+import com.pallasathenagroup.querydsl.range.RangeOps;
 import com.querydsl.jpa.HQLTemplates;
 
 public class ExtendedHQLTemplates extends HQLTemplates {
@@ -18,6 +20,20 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         add(RangeOps.DIFFERENCE, "DIFFERENCE({0}, {1})");
         add(RangeOps.LOWER_BOUND, "LOWER_BOUND({0})");
         add(RangeOps.UPPER_BOUND, "UPPER_BOUND({0})");
+
+        add(ArrayOps.OVERLAPS, "(OVERLAPS({0}, {1})) IS TRUE");
+        add(ArrayOps.CONTAINS, "(CONTAINS({0}, {1})) IS TRUE");
+        add(ArrayOps.IS_CONTAINED_BY, "(IS_CONTAINED_BY({0}, {1})) IS TRUE");
+        add(ArrayOps.CONCAT, "ARRAY_CONCAT({0}, {1})");
+        add(ArrayOps.APPEND, "ARRAY_APPEND({0}, {1})");
+        add(ArrayOps.PREPEND, "ARRAY_PREPEND({0}, {1})");
+        add(ArrayOps.NDIMS, "ARRAY_NDIMS({0})");
+        add(ArrayOps.DIMS, "ARRAY_DIMS({0})");
+        add(ArrayOps.FILL, "ARRAY_FILL({0}, {1})");
+        add(ArrayOps.LENGTH, "ARRAY_LENGTH({0})");
+        add(ArrayOps.TOSTRING, "ARRAY_TOSTRING({0})");
+        add(ArrayOps.UNNEST, "ARRAY_UNNEST({0})");
+        add(ArrayOps.ELEMENT_AT, "ARRAY_ELEMENT_AT({0}, {1})");
     }
 
 }

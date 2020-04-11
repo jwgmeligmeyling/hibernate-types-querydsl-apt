@@ -1,5 +1,6 @@
 package com.pallasathenagroup.querydsl;
 
+import com.pallasathenagroup.querydsl.range.RangeOps;
 import com.vladmihalcea.hibernate.type.range.guava.PostgreSQLGuavaRangeType;
 import org.hibernate.QueryException;
 import org.hibernate.TypeHelper;

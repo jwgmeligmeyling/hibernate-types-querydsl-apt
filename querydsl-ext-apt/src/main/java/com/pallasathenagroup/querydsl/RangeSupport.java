@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
 import com.mysema.codegen.model.SimpleType;
+import com.pallasathenagroup.querydsl.range.RangePath;
 import com.querydsl.apt.Extension;
 import com.querydsl.codegen.AbstractModule;
 import com.querydsl.codegen.CodegenModule;

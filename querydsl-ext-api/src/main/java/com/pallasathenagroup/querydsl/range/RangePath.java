@@ -1,4 +1,4 @@
-package com.pallasathenagroup.querydsl;
+package com.pallasathenagroup.querydsl.range;
 
 import com.google.common.collect.Range;
 import com.querydsl.core.types.ExpressionUtils;

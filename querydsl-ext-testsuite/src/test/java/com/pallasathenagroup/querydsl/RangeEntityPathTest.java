@@ -56,6 +56,18 @@ public class RangeEntityPathTest extends BaseCoreFunctionalTestCase {
     }
 
     @Test
+    public void selectUpper() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            List<LocalDateTime> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(rangeEntity)
+                    .select(rangeEntity.localDateTimeRange.upper())
+                    .fetch();
+
+            Assert.assertFalse(fetch.isEmpty());
+        });
+    }
+
+    @Test
     public void rangeEntityPathContainedByTest() {
         doInJPA(this::sessionFactory, entityManager -> {
             Range<LocalDateTime> other = Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay());
@@ -73,6 +85,18 @@ public class RangeEntityPathTest extends BaseCoreFunctionalTestCase {
             Range<LocalDateTime> other = Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay());
             List<Range<LocalDateTime>> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT).from(rangeEntity)
                     .select(rangeEntity.localDateTimeRange.union(other).intersection(rangeEntity.localDateTimeRange))
+                    .fetch();
+
+            Assert.assertFalse(fetch.isEmpty());
+        });
+    }
+
+    @Test
+    public void rangeEntityPathDifferenceTest() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            Range<LocalDateTime> other = Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay());
+            List<Range<LocalDateTime>> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT).from(rangeEntity)
+                    .select(rangeEntity.localDateTimeRange.difference(other).union(rangeEntity.localDateTimeRange))
                     .fetch();
 
             Assert.assertFalse(fetch.isEmpty());
