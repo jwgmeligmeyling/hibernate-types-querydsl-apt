@@ -24,9 +24,9 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction(ArrayOps.OVERLAPS.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
-        metadataBuilder.applySqlFunction(ArrayOps.CONTAINS.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
-        metadataBuilder.applySqlFunction(ArrayOps.IS_CONTAINED_BY.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
+        metadataBuilder.applySqlFunction("ARRAY_OVERLAPS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
+        metadataBuilder.applySqlFunction("ARRAY_CONTAINS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
+        metadataBuilder.applySqlFunction("ARRAY_IS_CONTAINED_BY", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
         metadataBuilder.applySqlFunction("ARRAY_DIMS", new SQLFunctionTemplate(StringType.INSTANCE, "ARRAY_DIMS(?1)"));
         metadataBuilder.applySqlFunction("ARRAY_MDIMS", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_MDIMS(?1)"));
         metadataBuilder.applySqlFunction("ARRAY_LENGTH", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_LENGTH(?1, 1)"));

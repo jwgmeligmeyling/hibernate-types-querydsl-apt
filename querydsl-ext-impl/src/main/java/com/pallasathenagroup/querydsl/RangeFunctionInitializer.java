@@ -17,35 +17,35 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction(RangeOps.OVERLAPS.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
-        metadataBuilder.applySqlFunction(RangeOps.CONTAINS.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
-        metadataBuilder.applySqlFunction(RangeOps.IS_CONTAINED_BY.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
-        metadataBuilder.applySqlFunction(RangeOps.STRICTLY_LEFT_OF.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 << ?2"));
-        metadataBuilder.applySqlFunction(RangeOps.STRICTLY_RIGHT_OF.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 >> ?2"));
-        metadataBuilder.applySqlFunction(RangeOps.ADJACENT_TO.name(), new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 -|- ?2"));
+        metadataBuilder.applySqlFunction("RANGE_OVERLAPS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
+        metadataBuilder.applySqlFunction("RANGE_CONTAINS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
+        metadataBuilder.applySqlFunction("RANGE_IS_CONTAINED_BY", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
+        metadataBuilder.applySqlFunction("RANGE_STRICTLY_LEFT_OF", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 << ?2"));
+        metadataBuilder.applySqlFunction("RANGE_STRICTLY_RIGHT_OF", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 >> ?2"));
+        metadataBuilder.applySqlFunction("RANGE_ADJACENT_TO", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 -|- ?2"));
 
-        metadataBuilder.applySqlFunction(RangeOps.UNION.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 + ?2") {
+        metadataBuilder.applySqlFunction("RANGE_UNION", new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 + ?2") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 return argumentType;
             }
         });
 
-        metadataBuilder.applySqlFunction(RangeOps.INTERSECTION.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 * ?2") {
+        metadataBuilder.applySqlFunction("RANGE_INTERSECTION", new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 * ?2") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 return argumentType;
             }
         });
 
-        metadataBuilder.applySqlFunction(RangeOps.DIFFERENCE.name(), new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 - ?2") {
+        metadataBuilder.applySqlFunction("RANGE_DIFFERENCE", new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 - ?2") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 return argumentType;
             }
         });
 
-        metadataBuilder.applySqlFunction(RangeOps.LOWER_BOUND.name(), new SQLFunctionTemplate(null, "LOWER(?1)") {
+        metadataBuilder.applySqlFunction("RANGE_LOWER_BOUND", new SQLFunctionTemplate(null, "LOWER(?1)") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 if (argumentType == null) {
@@ -58,7 +58,7 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
             }
         });
 
-        metadataBuilder.applySqlFunction(RangeOps.UPPER_BOUND.name(), new SQLFunctionTemplate(null, "UPPER(?1)") {
+        metadataBuilder.applySqlFunction("RANGE_UPPER_BOUND", new SQLFunctionTemplate(null, "UPPER(?1)") {
             @Override
             public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
                 if (argumentType == null) {
