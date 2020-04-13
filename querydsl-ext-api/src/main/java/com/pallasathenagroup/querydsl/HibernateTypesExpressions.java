@@ -10,6 +10,7 @@ import com.pallasathenagroup.querydsl.period.PeriodOperation;
 import com.pallasathenagroup.querydsl.period.PeriodOps;
 import com.pallasathenagroup.querydsl.range.RangeExpression;
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.DateExpression;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
@@ -53,15 +54,15 @@ public final class HibernateTypesExpressions {
         return new PeriodExpression((Expression) Expressions.constant(new TypedParameterValue(PostgreSQLPeriodType.INSTANCE, period)));
     }
 
-    public static PeriodOperation periodBetween(DateTimeExpression<?> a, DateTimeExpression<?> b) {
+    public static PeriodOperation periodBetween(DateExpression<?> a, DateExpression<?> b) {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, a, b));
     }
 
-    public static <T extends Comparable> PeriodOperation periodBetween(DateTimeExpression<T> a, T b) {
+    public static <T extends Comparable> PeriodOperation periodBetween(DateExpression<T> a, T b) {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, a, Expressions.constant(b)));
     }
 
-    public static <T extends Comparable> PeriodOperation periodBetween(T a, DateTimeExpression<T> b) {
+    public static <T extends Comparable> PeriodOperation periodBetween(T a, DateExpression<T> b) {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, Expressions.constant(a), b));
     }
 }

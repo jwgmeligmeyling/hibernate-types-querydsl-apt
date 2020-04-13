@@ -1,13 +1,11 @@
 package com.pallasathenagroup.querydsl;
 
 import com.mysema.codegen.model.SimpleType;
-import com.pallasathenagroup.querydsl.duration.DurationPath;
 import com.pallasathenagroup.querydsl.period.PeriodPath;
 import com.querydsl.apt.Extension;
 import com.querydsl.codegen.AbstractModule;
 import com.querydsl.codegen.TypeMappings;
 
-import java.time.Duration;
 import java.time.Period;
 
 public class PeriodSupport implements Extension {

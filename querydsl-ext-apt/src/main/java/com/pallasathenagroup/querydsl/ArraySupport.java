@@ -43,10 +43,6 @@ public class ArraySupport implements Extension {
             AnnotationMirror typeDefsMirror = TypeUtils.getAnnotationMirrorOfType(element, TypeDefs.class);
             for (AnnotationValue value : typeDefsMirror.getElementValues().values()) {
                 for (AnnotationMirror typeDefMirror : ((List<AnnotationMirror>) value.getValue())) {
-                    TypeMirror defaultForType = TypeUtils.getAnnotationValueAsTypeMirror(typeDefMirror, "defaultForType");
-                    Element defaultForTypeElement = typeUtils.asElement(defaultForType);
-
-
                     AnnotationValue defaultForTypeValue = getAnnotationValue(typeDefMirror, "defaultForType");
                     if (defaultForTypeValue != null && defaultForTypeValue.getValue() instanceof ArrayType) {
                         ArrayType arrayTypeMirror = (ArrayType) defaultForTypeValue.getValue();

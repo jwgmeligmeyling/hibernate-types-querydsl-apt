@@ -4,6 +4,7 @@ import com.pallasathenagroup.querydsl.array.ArrayOps;
 import com.vladmihalcea.hibernate.type.array.internal.AbstractArrayType;
 import com.vladmihalcea.hibernate.type.array.internal.AbstractArrayTypeDescriptor;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import com.vladmihalcea.hibernate.type.util.ReflectionUtils;
 import org.hibernate.QueryException;
 import org.hibernate.TypeHelper;
 import org.hibernate.boot.MetadataBuilder;
@@ -12,7 +13,6 @@ import org.hibernate.boot.spi.MetadataBuilderInitializer;
 import org.hibernate.dialect.function.SQLFunctionTemplate;
 import org.hibernate.engine.spi.Mapping;
 import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.type.BasicType;
 import org.hibernate.type.BooleanType;
 import org.hibernate.type.CustomType;
 import org.hibernate.type.IntegerType;
@@ -20,19 +20,7 @@ import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
 import org.hibernate.type.descriptor.java.JavaTypeDescriptor;
 
-import java.lang.reflect.Field;
-import java.util.function.Function;
-
 public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
-
-    public static Field arrayObjectClassField;
-
-    {
-        try {
-            arrayObjectClassField = AbstractArrayTypeDescriptor.class.getDeclaredField("arrayObjectClass");
-            arrayObjectClassField.setAccessible(true);
-        } catch (Exception e) {}
-    }
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
@@ -81,9 +69,7 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
 
                 TypeHelper typeHelper = ((SessionFactoryImpl) mapping).getTypeHelper();
                 AbstractArrayTypeDescriptor javaTypeDescriptor = (AbstractArrayTypeDescriptor) ((AbstractArrayType) argumentType).getJavaTypeDescriptor();
-
-
-                Class getJavaType = getArrayObjectClass(javaTypeDescriptor);
+                Class<?> getJavaType = ReflectionUtils.getFieldValue(javaTypeDescriptor, "arrayObjectClass");
                 Class componentType = getJavaType.getComponentType();
                 Type basic = typeHelper.basic(componentType);
 
@@ -104,7 +90,7 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
 
                 TypeHelper typeHelper = ((SessionFactoryImpl) mapping).getTypeHelper();
                 JavaTypeDescriptor javaTypeDescriptor = ((AbstractArrayType) argumentType).getJavaTypeDescriptor();
-                Class getJavaType = javaTypeDescriptor.getJavaType();
+                Class getJavaType = ReflectionUtils.<Class<?>> getFieldValue(javaTypeDescriptor, "arrayObjectClass");
                 Class componentType = getJavaType.getComponentType();
                 Type basic = typeHelper.basic(componentType);
 
@@ -116,14 +102,6 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
             }
         });
 
-    }
-
-    private static Class getArrayObjectClass(AbstractArrayTypeDescriptor javaTypeDescriptor) {
-        try {
-            return (Class) arrayObjectClassField.get(javaTypeDescriptor);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
     }
 
 }
