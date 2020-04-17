@@ -5,6 +5,7 @@ import com.querydsl.core.types.Operator;
 public enum ArrayOps implements Operator {
     OVERLAPS(Boolean.class),
     CONTAINS(Boolean.class),
+    CONTAINS_ELEMENT(Boolean.class),
     IS_CONTAINED_BY(Boolean.class),
     CONCAT(Object.class),
     APPEND(Object.class),
@@ -15,7 +16,8 @@ public enum ArrayOps implements Operator {
     LENGTH(Integer.class),
     TOSTRING(String.class),
     UNNEST(Object.class),
-    ELEMENT_AT(Object.class);
+    ELEMENT_AT(Object.class),
+    ARRAY_AGG(Object.class);
 
     private final Class<?> type;
 

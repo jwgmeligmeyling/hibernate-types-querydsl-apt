@@ -72,7 +72,7 @@ public class RangeExpression<X extends Comparable<?>> extends TypedParameterValu
         return containsElement(ConstantImpl.create(other));
     }
 
-    public BooleanExpression containsElement(Expression<X> other) {
+    public BooleanExpression containsElement(Expression<?> other) {
         return Expressions.booleanOperation(RangeOps.CONTAINS, mixin, other);
     }
 

@@ -4,6 +4,7 @@ import com.pallasathenagroup.querydsl.array.ArrayOps;
 import com.pallasathenagroup.querydsl.duration.DurationOps;
 import com.pallasathenagroup.querydsl.period.PeriodOps;
 import com.pallasathenagroup.querydsl.range.RangeOps;
+import com.pallasathenagroup.querydsl.yearmonth.YearMonthOps;
 import com.querydsl.jpa.HQLTemplates;
 
 public class ExtendedHQLTemplates extends HQLTemplates {
@@ -29,6 +30,7 @@ public class ExtendedHQLTemplates extends HQLTemplates {
 
         templates.add(ArrayOps.OVERLAPS, "ARRAY_OVERLAPS({0}, {1}) = TRUE");
         templates.add(ArrayOps.CONTAINS, "ARRAY_CONTAINS({0}, {1}) = TRUE");
+        templates.add(ArrayOps.CONTAINS_ELEMENT, "ARRAY_CONTAINS_ELEMENT({0}, {1}) = TRUE");
         templates.add(ArrayOps.IS_CONTAINED_BY, "ARRAY_IS_CONTAINED_BY({0}, {1}) = TRUE");
         templates.add(ArrayOps.CONCAT, "ARRAY_CONCAT({0}, {1})");
         templates.add(ArrayOps.APPEND, "ARRAY_APPEND({0}, {1})");
@@ -40,9 +42,10 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         templates.add(ArrayOps.TOSTRING, "ARRAY_TOSTRING({0})");
         templates.add(ArrayOps.UNNEST, "ARRAY_UNNEST({0})");
         templates.add(ArrayOps.ELEMENT_AT, "ARRAY_ELEMENT_AT({0}, {1})");
+        templates.add(ArrayOps.ARRAY_AGG, "ARRAY_AGG({0})");
 
         templates.add(DurationOps.BETWEEN, "DURATION_BETWEEN({0}, {1})");
-        templates.add(DurationOps.ADD, "DURATION_extendedHQLTemplates.add({0}, {1})");
+        templates.add(DurationOps.ADD, "DURATION_ADD({0}, {1})");
         templates.add(DurationOps.SUBTRACT, "DURATION_SUBTRACT({0}, {1})");
         templates.add(DurationOps.MULTIPLY, "DURATION_MULTIPLY({0}, {1})");
         templates.add(DurationOps.DIVIDE, "DURATION_DIVIDE({0}, {1})");
@@ -52,7 +55,7 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         templates.add(DurationOps.SUM, "DURATION_SUM({0})");
 
         templates.add(PeriodOps.BETWEEN, "PERIOD_BETWEEN({0}, {1})");
-        templates.add(PeriodOps.ADD, "PERIOD_extendedHQLTemplates.add({0}, {1})");
+        templates.add(PeriodOps.ADD, "PERIOD_ADD({0}, {1})");
         templates.add(PeriodOps.SUBTRACT, "PERIOD_SUBTRACT({0}, {1})");
         templates.add(PeriodOps.MULTIPLY, "PERIOD_MULTIPLY({0}, {1})");
         templates.add(PeriodOps.DIVIDE, "PERIOD_DIVIDE({0}, {1})");
@@ -60,6 +63,8 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         templates.add(PeriodOps.MAX, "PERIOD_MAX({0})");
         templates.add(PeriodOps.MIN, "PERIOD_MIN({0})");
         templates.add(PeriodOps.SUM, "PERIOD_SUM({0})");
+
+        templates.add(YearMonthOps.CAST_YEARMONTH, "CAST_YEARMONTH({0})");
     }
 
 }

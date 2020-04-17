@@ -58,6 +58,10 @@ public class PostgresqlArrayExpression<A, T> extends TypedParameterValueSimpleEx
         return Expressions.predicate(ArrayOps.CONTAINS, this, expression);
     }
 
+    public BooleanOperation contains(Expression<T> expression) {
+        return Expressions.predicate(ArrayOps.CONTAINS_ELEMENT, this, expression);
+    }
+
     public BooleanOperation isContainedBy(PostgresqlArrayExpression<A, T> expression) {
         return Expressions.predicate(ArrayOps.IS_CONTAINED_BY, this, expression);
     }
@@ -127,17 +131,11 @@ public class PostgresqlArrayExpression<A, T> extends TypedParameterValueSimpleEx
             return new TypedParameterValue(UUIDArrayType.INSTANCE, other);
         } else if (componentType.equals(String.class)) {
             return new TypedParameterValue(StringArrayType.INSTANCE, other);
-        } else if (componentType.equals(int.class)) {
+        } else if (componentType.equals(int.class) || componentType.equals(Integer.class)) {
             return new TypedParameterValue(IntArrayType.INSTANCE, other);
-        } else if (componentType.equals(Integer.class)) {
-            return new TypedParameterValue(IntArrayType.INSTANCE, other);
-        } else if (componentType.equals(long.class)) {
+        } else if (componentType.equals(long.class) || componentType.equals(Long.class)) {
             return new TypedParameterValue(LongArrayType.INSTANCE, other);
-        } else if (componentType.equals(Long.class)) {
-            return new TypedParameterValue(LongArrayType.INSTANCE, other);
-        } else if (componentType.equals(double.class)) {
-            return new TypedParameterValue(DoubleArrayType.INSTANCE, other);
-        } else if (componentType.equals(Double.class)) {
+        } else if (componentType.equals(double.class) || componentType.equals(Double.class)) {
             return new TypedParameterValue(DoubleArrayType.INSTANCE, other);
         } else if (Timestamp.class.isAssignableFrom(componentType)) {
             return new TypedParameterValue(TimestampArrayType.INSTANCE, other);

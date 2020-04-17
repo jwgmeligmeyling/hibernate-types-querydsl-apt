@@ -26,6 +26,11 @@ public class ArrayEntityPathTest extends BaseCoreFunctionalTestCase {
         return new Class<?>[] { ArrayEntity.class };
     }
 
+    @Override
+    protected boolean isCleanupTestDataRequired() {
+        return true;
+    }
+
     @Before
     public void setUp() {
         doInJPA(this::sessionFactory, entityManager -> {
@@ -80,6 +85,17 @@ public class ArrayEntityPathTest extends BaseCoreFunctionalTestCase {
             assertEquals(2, tuple.get(9, Object.class));
             assertEquals(true, tuple.get(10, Object.class));
             assertEquals(SensorState.ONLINE, tuple.get(11, Object.class));
+        });
+    }
+
+
+    @Test
+    public void testArrayAgg() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            new JPAQuery<>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(arrayEntity)
+                    .select(HibernateTypesExpressions.arrayAgg(arrayEntity.sensorStates.get(0)))
+                    .fetch();
         });
     }
 }

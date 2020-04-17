@@ -1,6 +1,13 @@
 package com.pallasathenagroup.querydsl;
 
-import com.pallasathenagroup.querydsl.array.ArrayOps;
+import com.vladmihalcea.hibernate.type.array.DateArrayType;
+import com.vladmihalcea.hibernate.type.array.DoubleArrayType;
+import com.vladmihalcea.hibernate.type.array.EnumArrayType;
+import com.vladmihalcea.hibernate.type.array.IntArrayType;
+import com.vladmihalcea.hibernate.type.array.LongArrayType;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import com.vladmihalcea.hibernate.type.array.TimestampArrayType;
+import com.vladmihalcea.hibernate.type.array.UUIDArrayType;
 import com.vladmihalcea.hibernate.type.array.internal.AbstractArrayType;
 import com.vladmihalcea.hibernate.type.array.internal.AbstractArrayTypeDescriptor;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
@@ -19,6 +26,12 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
 import org.hibernate.type.descriptor.java.JavaTypeDescriptor;
+import org.hibernate.usertype.UserType;
+
+import java.lang.reflect.Array;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.UUID;
 
 public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
 
@@ -26,6 +39,7 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
         metadataBuilder.applySqlFunction("ARRAY_OVERLAPS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
         metadataBuilder.applySqlFunction("ARRAY_CONTAINS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
+        metadataBuilder.applySqlFunction("ARRAY_CONTAINS_ELEMENT", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ARRAY[?2]"));
         metadataBuilder.applySqlFunction("ARRAY_IS_CONTAINED_BY", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
         metadataBuilder.applySqlFunction("ARRAY_DIMS", new SQLFunctionTemplate(StringType.INSTANCE, "ARRAY_DIMS(?1)"));
         metadataBuilder.applySqlFunction("ARRAY_MDIMS", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_MDIMS(?1)"));
@@ -99,6 +113,41 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
                 }
 
                 return basic;
+            }
+        });
+
+        metadataBuilder.applySqlFunction("ARRAY_AGG", new SQLFunctionTemplate(null, "ARRAY_AGG(?1)") {
+            @Override
+            public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
+                if (argumentType == null) {
+                    return null;
+                }
+
+                Class<?> componentType = argumentType.getReturnedClass();
+
+                if (argumentType instanceof CustomType) {
+                    CustomType customType = (CustomType) argumentType;
+                    UserType userType = customType.getUserType();
+                    if (userType instanceof PostgreSQLEnumType) {
+                        return new EnumArrayType(Array.newInstance(componentType, 0).getClass(), "");
+                    }
+                } else if (componentType.equals(UUID.class)) {
+                    return UUIDArrayType.INSTANCE;
+                } else if (componentType.equals(String.class)) {
+                    return StringArrayType.INSTANCE;
+                } else if (componentType.equals(int.class) || componentType.equals(Integer.class)) {
+                    return IntArrayType.INSTANCE;
+                } else if (componentType.equals(long.class) || componentType.equals(Long.class)) {
+                    return LongArrayType.INSTANCE;
+                } else if (componentType.equals(double.class) || componentType.equals(Double.class)) {
+                    return DoubleArrayType.INSTANCE;
+                } else if (Timestamp.class.isAssignableFrom(componentType)) {
+                    return TimestampArrayType.INSTANCE;
+                } else if (Date.class.isAssignableFrom(componentType)) {
+                    return DateArrayType.INSTANCE;
+                }
+
+                throw new IllegalStateException("Array_agg is not supported for " + componentType + " mapped by " + argumentType);
             }
         });
 
