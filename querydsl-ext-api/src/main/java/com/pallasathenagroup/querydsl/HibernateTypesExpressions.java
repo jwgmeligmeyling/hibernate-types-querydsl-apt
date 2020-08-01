@@ -33,10 +33,12 @@ import static com.pallasathenagroup.querydsl.yearmonth.YearMonthOps.CAST_YEARMON
 
 public final class HibernateTypesExpressions {
 
+    @SafeVarargs
     public static <T> PostgresqlArrayExpression<T[], T> createArrayExpression(T... elements) {
         return new PostgresqlArrayExpression<T[], T>((Expression) Expressions.constant(PostgresqlArrayExpression.getTypedParameterValue(elements, null)), null);
     }
 
+    @SafeVarargs
     public static <T extends Enum<? extends T>> PostgresqlArrayExpression<T[], T> createArrayExpression(String enumType, T... elements) {
         return new PostgresqlArrayExpression<T[], T>((Expression) Expressions.constant(PostgresqlArrayExpression.getTypedParameterValue(elements, enumType)), enumType);
     }
@@ -53,11 +55,11 @@ public final class HibernateTypesExpressions {
         return new DurationOperation(Expressions.operation(Duration.class, DurationOps.BETWEEN, a, b));
     }
 
-    public static <T extends Comparable> DurationOperation durationBetween(DateTimeExpression<T> a, T b) {
+    public static <T extends Comparable<? super T>> DurationOperation durationBetween(DateTimeExpression<T> a, T b) {
         return new DurationOperation(Expressions.operation(Duration.class, DurationOps.BETWEEN, a, Expressions.constant(b)));
     }
 
-    public static <T extends Comparable> DurationOperation durationBetween(T a, DateTimeExpression<T> b) {
+    public static <T extends Comparable<? super T>> DurationOperation durationBetween(T a, DateTimeExpression<T> b) {
         return new DurationOperation(Expressions.operation(Duration.class, DurationOps.BETWEEN, Expressions.constant(a), b));
     }
 
@@ -73,11 +75,11 @@ public final class HibernateTypesExpressions {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, a, b));
     }
 
-    public static <T extends Comparable> PeriodOperation periodBetween(DateExpression<T> a, T b) {
+    public static <T extends Comparable<? super T>> PeriodOperation periodBetween(DateExpression<T> a, T b) {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, a, Expressions.constant(b)));
     }
 
-    public static <T extends Comparable> PeriodOperation periodBetween(T a, DateExpression<T> b) {
+    public static <T extends Comparable<? super T>> PeriodOperation periodBetween(T a, DateExpression<T> b) {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, Expressions.constant(a), b));
     }
 
