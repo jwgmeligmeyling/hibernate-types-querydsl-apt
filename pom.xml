@@ -23,4 +23,19 @@
         <querydsl.version>4.3.1</querydsl.version>
         <hibernate.version>5.4.10.Final</hibernate.version>
     </properties>
+
+
+    <distributionManagement>
+        <repository>
+            <id>pallasathenagroup</id>
+            <name>pallasathenagroup-releases-local</name>
+            <url>https://pallasathenagroup.jfrog.io/pallasathenagroup/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>pallasathenagroup</id>
+            <name>pallasathenagroup-snapshots-local</name>
+            <url>https://pallasathenagroup.jfrog.io/pallasathenagroup/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
