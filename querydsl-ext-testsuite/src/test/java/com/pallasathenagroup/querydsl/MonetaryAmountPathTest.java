@@ -1,5 +1,6 @@
 package com.pallasathenagroup.querydsl;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hamcrest.CoreMatchers;
@@ -38,6 +39,7 @@ public class MonetaryAmountPathTest extends BaseCoreFunctionalTestCase {
             MonetaryAmountEntity moneyEntity = new MonetaryAmountEntity();
             moneyEntity.setId(1L);
             moneyEntity.setMonetaryAmount(monetaryAmount);
+            moneyEntity.setSummableValue(new BigDecimal("5.00"));
             entityManager.persist(moneyEntity);
         });
     }
@@ -51,6 +53,53 @@ public class MonetaryAmountPathTest extends BaseCoreFunctionalTestCase {
                     .transform(GroupBy.groupBy(monetaryAmountEntity.monetaryAmount.currencyUnit).as(monetaryAmountEntity.monetaryAmount.amount.sum()));
 
             Assert.assertThat(result, CoreMatchers.is(CoreMatchers.notNullValue()));
+        });
+    }
+
+
+    @Test
+    public void testMoneyProjection() {
+
+        doInJPA(this::sessionFactory, entityManager -> {
+            QueryResults<MonetaryAmount> result = new JPAQuery<PeriodEntity>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(monetaryAmountEntity)
+                    .groupBy(monetaryAmountEntity.monetaryAmount.currencyUnit)
+                    .select(MoneyProjections.money(monetaryAmountEntity.monetaryAmount.amount.sum(), monetaryAmountEntity.monetaryAmount.currencyUnit))
+                    .fetchResults();
+
+            Assert.assertThat(result, CoreMatchers.is(CoreMatchers.notNullValue()));
+        });
+    }
+
+
+    @Test
+    public void testMoneyComponentExpressions() {
+
+        doInJPA(this::sessionFactory, entityManager -> {
+            MonetaryAmount result = new JPAQuery<PeriodEntity>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(monetaryAmountEntity)
+                    .where(monetaryAmountEntity.monetaryAmount.amount.gt(new BigDecimal("100")))
+                    .where(monetaryAmountEntity.monetaryAmount.currencyUnit.eq(Monetary.getCurrency("EUR")))
+                    .select(monetaryAmountEntity.monetaryAmount)
+                    .fetchOne();
+
+            Assert.assertThat(result, CoreMatchers.is(CoreMatchers.notNullValue()));
+        });
+    }
+
+    @Test
+    public void testMoneyParameter() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            CurrencyUnit eur = Monetary.getCurrency("EUR");
+            MonetaryAmount monetaryAmount = Monetary.getDefaultAmountFactory().setCurrency(eur).setNumber(200).create();
+
+            MonetaryAmount result = new JPAQuery<PeriodEntity>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(monetaryAmountEntity)
+                    .where(monetaryAmountEntity.monetaryAmount.eq(monetaryAmount))
+                    .select(monetaryAmountEntity.monetaryAmount)
+                    .fetchOne();
+
+            Assert.assertEquals(monetaryAmount, result);
         });
     }
 

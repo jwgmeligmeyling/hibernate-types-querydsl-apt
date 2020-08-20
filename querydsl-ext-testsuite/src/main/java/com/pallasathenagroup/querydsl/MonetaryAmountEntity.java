@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import org.jadira.usertype.moneyandcurrency.moneta.PersistentMoneyAmountAndCurrency;
 
+import java.math.BigDecimal;
+
 @Entity
 @TypeDef(name = "money", typeClass = PersistentMoneyAmountAndCurrency.class, defaultForType = MonetaryAmount.class)
 public class MonetaryAmountEntity {
@@ -23,6 +25,8 @@ public class MonetaryAmountEntity {
             @Column(name = "amount"),
     })
     private MonetaryAmount monetaryAmount;
+
+    private BigDecimal summableValue;
 
     public Long getId() {
         return id;
@@ -40,4 +44,11 @@ public class MonetaryAmountEntity {
         this.monetaryAmount = monetaryAmount;
     }
 
+    public BigDecimal getSummableValue() {
+        return summableValue;
+    }
+
+    public void setSummableValue(BigDecimal summableValue) {
+        this.summableValue = summableValue;
+    }
 }

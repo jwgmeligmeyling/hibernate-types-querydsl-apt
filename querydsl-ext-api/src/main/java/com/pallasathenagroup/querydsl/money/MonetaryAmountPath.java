@@ -3,6 +3,7 @@ package com.pallasathenagroup.querydsl.money;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.ComparablePath;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.SimpleExpression;
@@ -16,12 +17,12 @@ import java.util.Currency;
 public class MonetaryAmountPath extends MonetaryAmountExpression implements Path<MonetaryAmount> {
 
     public final NumberPath<BigDecimal> amount;
-    public final SimpleExpression<CurrencyUnit> currencyUnit;
+    public final ComparablePath<CurrencyUnit> currencyUnit;
 
     public MonetaryAmountPath(Path<MonetaryAmount> mixin) {
         super(mixin);
         this.amount = Expressions.numberPath(BigDecimal.class, this, "amount");
-        this.currencyUnit = Expressions.simplePath(CurrencyUnit.class, this, "currencyUnit");
+        this.currencyUnit = Expressions.comparablePath(CurrencyUnit.class, this, "currencyUnit");
     }
 
     public MonetaryAmountPath(PathMetadata pathMetadata) {
