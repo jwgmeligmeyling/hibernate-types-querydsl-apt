@@ -23,8 +23,8 @@ public class ExtendedPostgreSQLGuavaRangeType extends PostgreSQLGuavaRangeType i
     public static final Range<Integer> EMPTY_INT_RANGE = Range.closedOpen(Integer.MIN_VALUE, Integer.MIN_VALUE);
     public static final Range<Long> EMPTY_LONG_RANGE = Range.closedOpen(Long.MIN_VALUE, Long.MIN_VALUE);
     public static final Range<BigDecimal> EMPTY_BIGDECIMAL_RANGE = Range.closedOpen(BigDecimal.ZERO, BigDecimal.ZERO);
-    public static final Range<LocalDateTime> EMPTY_LOCALDATETIME_RANGE = Range.closedOpen(LocalDateTime.MIN, LocalDateTime.MAX);
-    public static final Range<LocalDate> EMPTY_DATE_RANGE = Range.closedOpen(LocalDate.MIN, LocalDate.MAX);
+    public static final Range<LocalDateTime> EMPTY_LOCALDATETIME_RANGE = Range.closedOpen(LocalDateTime.MIN, LocalDateTime.MIN);
+    public static final Range<LocalDate> EMPTY_DATE_RANGE = Range.closedOpen(LocalDate.MIN, LocalDate.MIN);
 
     private Class<?> elementType;
 
@@ -84,8 +84,7 @@ public class ExtendedPostgreSQLGuavaRangeType extends PostgreSQLGuavaRangeType i
         } else {
             PGobject object = new PGobject();
             object.setType(determineRangeType(range));
-            object.setValue(asString(range));
-
+            object.setValue(range.isEmpty() ? "empty" : asString(range));
             st.setObject(index, object);
         }
     }
