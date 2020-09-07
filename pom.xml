@@ -26,9 +26,9 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>github</name>
-            <url>https://maven.pkg.github.com/jwgmeligmeyling/hibernate-types-querydsl-apt</url>
+            <id>pallasathenagroup</id>
+            <name>pallasathenagroup-release-local</name>
+            <url>https://pallasathenagroup.jfrog.io/pallasathenagroup/libs-release-local</url>
         </repository>
         <snapshotRepository>
             <id>pallasathenagroup</id>
