@@ -1,11 +1,9 @@
 package com.pallasathenagroup.querydsl;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Range;
-import com.google.common.collect.Sets;
-import com.mysema.codegen.model.SimpleType;
+import com.querydsl.codegen.utils.model.SimpleType;
 import com.pallasathenagroup.querydsl.range.RangePath;
-import com.querydsl.apt.Extension;
+import com.querydsl.codegen.Extension;
 import com.querydsl.codegen.AbstractModule;
 import com.querydsl.codegen.CodegenModule;
 import com.querydsl.codegen.TypeMappings;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class RangeSupport implements Extension {
@@ -46,10 +45,10 @@ public class RangeSupport implements Extension {
         @SuppressWarnings("unchecked")
         Set<String> imports = module.get(Set.class, CodegenModule.IMPORTS);
         if (imports.isEmpty()) {
-            imports = ImmutableSet.of(packageName);
+            imports = Collections.singleton(packageName);
         } else {
             Set<String> old = imports;
-            imports = Sets.newHashSet();
+            imports = new HashSet<>();
             imports.addAll(old);
             imports.add(packageName);
         }

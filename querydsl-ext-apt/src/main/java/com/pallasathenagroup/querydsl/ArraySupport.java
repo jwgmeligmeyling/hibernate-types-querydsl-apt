@@ -1,16 +1,14 @@
 package com.pallasathenagroup.querydsl;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.mysema.codegen.model.SimpleType;
-import com.mysema.codegen.model.Type;
-import com.mysema.codegen.model.TypeCategory;
 import com.pallasathenagroup.querydsl.array.PostgresqlArrayPath;
-import com.querydsl.apt.Extension;
 import com.querydsl.apt.TypeUtils;
 import com.querydsl.codegen.AbstractModule;
 import com.querydsl.codegen.CodegenModule;
+import com.querydsl.codegen.Extension;
 import com.querydsl.codegen.TypeMappings;
+import com.querydsl.codegen.utils.model.SimpleType;
+import com.querydsl.codegen.utils.model.Type;
+import com.querydsl.codegen.utils.model.TypeCategory;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
@@ -24,9 +22,9 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -160,10 +158,10 @@ public class ArraySupport implements Extension {
         @SuppressWarnings("unchecked")
         Set<String> imports = module.get(Set.class, CodegenModule.IMPORTS);
         if (imports.isEmpty()) {
-            imports = ImmutableSet.of(packageName);
+            imports = Collections.singleton(packageName);
         } else {
             Set<String> old = imports;
-            imports = Sets.newHashSet();
+            imports = new HashSet<>();
             imports.addAll(old);
             imports.add(packageName);
         }
