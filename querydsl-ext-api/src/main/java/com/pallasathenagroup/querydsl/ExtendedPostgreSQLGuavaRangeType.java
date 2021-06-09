@@ -15,16 +15,18 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Properties;
 
 public class ExtendedPostgreSQLGuavaRangeType extends PostgreSQLGuavaRangeType implements DynamicParameterizedType {
 
-    public static final Range<Integer> EMPTY_INT_RANGE = Range.closedOpen(Integer.MIN_VALUE, Integer.MIN_VALUE);
-    public static final Range<Long> EMPTY_LONG_RANGE = Range.closedOpen(Long.MIN_VALUE, Long.MIN_VALUE);
-    public static final Range<BigDecimal> EMPTY_BIGDECIMAL_RANGE = Range.closedOpen(BigDecimal.ZERO, BigDecimal.ZERO);
-    public static final Range<LocalDateTime> EMPTY_LOCALDATETIME_RANGE = Range.closedOpen(LocalDateTime.MIN, LocalDateTime.MIN);
-    public static final Range<LocalDate> EMPTY_DATE_RANGE = Range.closedOpen(LocalDate.MIN, LocalDate.MIN);
+    public static final Range<Integer> EMPTY_INT_RANGE = Range.open(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    public static final Range<Long> EMPTY_LONG_RANGE = Range.open(Long.MIN_VALUE, Long.MIN_VALUE);
+    public static final Range<BigDecimal> EMPTY_BIGDECIMAL_RANGE = Range.open(BigDecimal.ZERO, BigDecimal.ZERO);
+    public static final Range<LocalDateTime> EMPTY_LOCALDATETIME_RANGE = Range.open(LocalDateTime.MIN, LocalDateTime.MIN);
+    public static final Range<OffsetDateTime> EMPTY_OFFSETDATETIME_RANGE = Range.open(OffsetDateTime.MIN, OffsetDateTime.MIN);
+    public static final Range<LocalDate> EMPTY_DATE_RANGE = Range.open(LocalDate.MIN, LocalDate.MIN);
 
     private Class<?> elementType;
 
@@ -65,6 +67,8 @@ public class ExtendedPostgreSQLGuavaRangeType extends PostgreSQLGuavaRangeType i
                     return EMPTY_BIGDECIMAL_RANGE;
                 case "tsrange":
                     return EMPTY_LOCALDATETIME_RANGE;
+                case "tstzrange":
+                    return EMPTY_OFFSETDATETIME_RANGE;
                 case "daterange":
                     return EMPTY_DATE_RANGE;
                 default:
@@ -109,6 +113,8 @@ public class ExtendedPostgreSQLGuavaRangeType extends PostgreSQLGuavaRangeType i
             return "tstzrange";
         } else if (clazz.equals(LocalDate.class)) {
             return "daterange";
+        } else if (clazz.equals(OffsetDateTime.class)) {
+            return "tstzrange";
         }
 
         throw new IllegalStateException("The class [" + clazz.getName() + "] is not supported!");
