@@ -13,13 +13,18 @@ import com.pallasathenagroup.querydsl.period.PeriodOperation;
 import com.pallasathenagroup.querydsl.period.PeriodOps;
 import com.pallasathenagroup.querydsl.range.RangeExpression;
 import com.pallasathenagroup.querydsl.yearmonth.YearMonthExpression;
+import com.pallasathenagroup.querydsl.yearmonth.YearMonthOps;
 import com.querydsl.core.types.Constant;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.dsl.ComparableExpression;
 import com.querydsl.core.types.dsl.DateExpression;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.vladmihalcea.hibernate.type.basic.Iso8601MonthType;
 import com.vladmihalcea.hibernate.type.basic.YearMonthTimestampType;
+import com.vladmihalcea.hibernate.type.basic.YearType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLPeriodType;
 import org.hibernate.jpa.TypedParameterValue;
@@ -27,7 +32,9 @@ import org.hibernate.jpa.TypedParameterValue;
 import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.Period;
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.Map;
 
@@ -85,6 +92,7 @@ public final class HibernateTypesExpressions {
         return new PeriodOperation(Expressions.operation(Period.class, PeriodOps.BETWEEN, Expressions.constant(a), b));
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static YearMonthExpression yearMonth(YearMonth yearMonth) {
         return new YearMonthExpression((Constant) Expressions.constant(new TypedParameterValue(YearMonthTimestampType.INSTANCE, yearMonth)));
     }
@@ -95,6 +103,40 @@ public final class HibernateTypesExpressions {
 
     public static YearMonthExpression yearMonth(DateTimeExpression<?> dateExpression) {
         return new YearMonthExpression(Expressions.operation(YearMonth.class, CAST_YEARMONTH, Expressions.operation(dateExpression.getType(), Ops.DateTimeOps.TRUNC_MONTH, dateExpression)));
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static ComparableExpression<Month> month(Month month) {
+        return Expressions.asComparable((Constant) Expressions.constant(new TypedParameterValue(Iso8601MonthType.INSTANCE, month)));
+    }
+
+    public static ComparableExpression<Month> month(NumberExpression<Integer> expression) {
+        return Expressions.enumOperation(Month.class, YearMonthOps.CAST_MONTH, expression);
+    }
+
+    public static ComparableExpression<Month> month(DateExpression<?> expression) {
+        return month(expression.month());
+    }
+
+    public static ComparableExpression<Month> month(DateTimeExpression<?> expression) {
+        return month(expression.month());
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static ComparableExpression<Year> year(Year year) {
+        return Expressions.asComparable((Constant) Expressions.constant(new TypedParameterValue(YearType.INSTANCE, year)));
+    }
+
+    public static ComparableExpression<Year> year(NumberExpression<Integer> expression) {
+        return Expressions.comparableOperation(Year.class, YearMonthOps.CAST_YEAR, expression);
+    }
+
+    public static ComparableExpression<Year> year(DateExpression<?> expression) {
+        return year(expression.year());
+    }
+
+    public static ComparableExpression<Year> year(DateTimeExpression<?> expression) {
+        return year(expression.year());
     }
 
     public static <T extends Comparable<? super T>> PostgresqlArrayOperation<T[], T> arrayAgg(Expression<T> expression) {
