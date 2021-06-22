@@ -1,6 +1,6 @@
 package com.pallasathenagroup.querydsl;
 
-import com.mysema.codegen.model.Type;
+import com.querydsl.codegen.utils.model.Type;
 import com.querydsl.codegen.EntityType;
 import com.querydsl.codegen.JavaTypeMappings;
 

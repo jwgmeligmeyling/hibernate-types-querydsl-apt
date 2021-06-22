@@ -1,9 +1,9 @@
 package com.pallasathenagroup.querydsl;
 
-import com.mysema.codegen.model.SimpleType;
+import com.querydsl.codegen.utils.model.SimpleType;
 import com.pallasathenagroup.querydsl.money.MonetaryAmountPath;
 import com.pallasathenagroup.querydsl.period.PeriodPath;
-import com.querydsl.apt.Extension;
+import com.querydsl.codegen.Extension;
 import com.querydsl.codegen.AbstractModule;
 import com.querydsl.codegen.TypeMappings;
 

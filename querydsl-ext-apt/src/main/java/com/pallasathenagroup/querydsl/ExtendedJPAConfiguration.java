@@ -1,6 +1,5 @@
 package com.pallasathenagroup.querydsl;
 
-import com.google.common.collect.ImmutableList;
 import com.querydsl.apt.DefaultConfiguration;
 import com.querydsl.apt.QueryTypeImpl;
 import com.querydsl.apt.TypeUtils;
@@ -46,6 +45,7 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.List;
 
 public class ExtendedJPAConfiguration extends DefaultConfiguration {
@@ -71,7 +71,7 @@ public class ExtendedJPAConfiguration extends DefaultConfiguration {
 
     @SuppressWarnings("unchecked")
     protected List<Class<? extends Annotation>> getAnnotations() {
-        return ImmutableList.of(
+        return Arrays.asList(
                 Access.class, Basic.class, Column.class, ElementCollection.class,
                 Embedded.class, EmbeddedId.class, Enumerated.class, GeneratedValue.class, Id.class,
                 JoinColumn.class, ManyToOne.class, ManyToMany.class, MapKeyEnumerated.class,
