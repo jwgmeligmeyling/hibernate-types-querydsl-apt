@@ -16,6 +16,7 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
             <version>${querydsl.version}</version>
+            <classifier>jpa</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
