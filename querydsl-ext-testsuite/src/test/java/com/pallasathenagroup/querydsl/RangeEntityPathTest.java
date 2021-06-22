@@ -1,6 +1,8 @@
 package com.pallasathenagroup.querydsl;
 
 import com.google.common.collect.Range;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.testing.junit4.BaseCoreFunctionalTestCase;
 import org.junit.Assert;
@@ -98,6 +100,22 @@ public class RangeEntityPathTest extends BaseCoreFunctionalTestCase {
             Range<LocalDateTime> other = Range.closedOpen(LocalDate.of(2019, 1, 1).atStartOfDay(), LocalDate.of(2021, 1, 1).atStartOfDay());
             List<Range<LocalDateTime>> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT).from(rangeEntity)
                     .select(rangeEntity.localDateTimeRange.difference(other).union(rangeEntity.localDateTimeRange))
+                    .fetch();
+
+            Assert.assertFalse(fetch.isEmpty());
+        });
+    }
+
+    @Test
+    public void selectDateUtils() {
+        doInJPA(this::sessionFactory, entityManager -> {
+            List<Tuple> fetch = new JPAQuery<RangeEntity>(entityManager, ExtendedHQLTemplates.DEFAULT)
+                    .from(rangeEntity)
+                    .select(
+//                            HibernateTypesExpressions.yearMonth(Expressions.asDate(rangeEntity.localDateTimeRange.lower())),
+                            HibernateTypesExpressions.month(Expressions.asDate(rangeEntity.localDateTimeRange.lower())),
+                            HibernateTypesExpressions.year(Expressions.asDate(rangeEntity.localDateTimeRange.lower()))
+                    )
                     .fetch();
 
             Assert.assertFalse(fetch.isEmpty());

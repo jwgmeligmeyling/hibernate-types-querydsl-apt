@@ -85,6 +85,8 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         templates.add(HstoreOps.VALUES, "svals({0})");
 
         templates.add(YearMonthOps.CAST_YEARMONTH, "CAST_YEARMONTH({0})");
+        templates.add(YearMonthOps.CAST_MONTH, "CAST_MONTH({0})");
+        templates.add(YearMonthOps.CAST_YEAR, "CAST_YEAR({0})");
     }
 
 }
