@@ -65,13 +65,13 @@ Note: this configuration is for Querydsl 5.0 and above. For earlier versions of 
         <version>${querydsl.version}</version>
     </dependency>
     <dependency>
-    <dependency>
         <groupId>com.querydsl</groupId>
         <artifactId>querydsl-apt</artifactId>
         <version>${querydsl.version}</version>
         <classifier>jpa</classifier>
         <scope>provided</scope>
     </dependency>
+    <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>querydsl-ext-api</artifactId>
         <version>${project.version}</version>
