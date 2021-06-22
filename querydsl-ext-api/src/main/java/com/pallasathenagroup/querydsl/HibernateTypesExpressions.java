@@ -27,6 +27,7 @@ import com.vladmihalcea.hibernate.type.basic.YearMonthTimestampType;
 import com.vladmihalcea.hibernate.type.basic.YearType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLPeriodType;
+import com.vladmihalcea.hibernate.type.range.guava.PostgreSQLGuavaRangeType;
 import org.hibernate.jpa.TypedParameterValue;
 
 import java.lang.reflect.Array;
@@ -53,7 +54,7 @@ public final class HibernateTypesExpressions {
     }
 
     public static <T extends Comparable<?>> RangeExpression<T> createRangeExpression(Range<T> range) {
-        return new RangeExpression<T>((Expression) Expressions.constant(new TypedParameterValue(ExtendedPostgreSQLGuavaRangeType.INSTANCE, range)));
+        return new RangeExpression<T>((Expression) Expressions.constant(new TypedParameterValue(PostgreSQLGuavaRangeType.INSTANCE, range)));
     }
 
     public static DurationExpression duration(Duration duration) {

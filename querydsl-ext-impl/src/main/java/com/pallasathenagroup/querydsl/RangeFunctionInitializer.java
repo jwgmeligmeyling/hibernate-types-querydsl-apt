@@ -53,7 +53,7 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
                 }
 
                 TypeHelper typeHelper = ((SessionFactoryImpl) mapping).getTypeHelper();
-                Class<?> elementType = ((ExtendedPostgreSQLGuavaRangeType) argumentType).getElementType();
+                Class<?> elementType = ((PostgreSQLGuavaRangeType) argumentType).getElementType();
                 return typeHelper.basic(elementType);
             }
         });
@@ -66,7 +66,7 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
                 }
 
                 TypeHelper typeHelper = ((SessionFactoryImpl) mapping).getTypeHelper();
-                Class<?> elementType = ((ExtendedPostgreSQLGuavaRangeType) argumentType).getElementType();
+                Class<?> elementType = ((PostgreSQLGuavaRangeType) argumentType).getElementType();
                 return typeHelper.basic(elementType);
             }
         });
