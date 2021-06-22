@@ -7,6 +7,7 @@ import com.pallasathenagroup.querydsl.array.PostgresqlArrayOperation;
 import com.pallasathenagroup.querydsl.duration.DurationExpression;
 import com.pallasathenagroup.querydsl.duration.DurationOperation;
 import com.pallasathenagroup.querydsl.duration.DurationOps;
+import com.pallasathenagroup.querydsl.hstore.HstoreExpression;
 import com.pallasathenagroup.querydsl.period.PeriodExpression;
 import com.pallasathenagroup.querydsl.period.PeriodOperation;
 import com.pallasathenagroup.querydsl.period.PeriodOps;
@@ -28,6 +29,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.YearMonth;
+import java.util.Map;
 
 import static com.pallasathenagroup.querydsl.yearmonth.YearMonthOps.CAST_YEARMONTH;
 
@@ -97,6 +99,10 @@ public final class HibernateTypesExpressions {
 
     public static <T extends Comparable<? super T>> PostgresqlArrayOperation<T[], T> arrayAgg(Expression<T> expression) {
         return new PostgresqlArrayOperation(Expressions.operation(Array.newInstance(expression.getType(), 0).getClass(), ArrayOps.ARRAY_AGG, expression), null);
+    }
+
+    public static HstoreExpression asHstore(Expression<Map<String, String>> expression) {
+        return new HstoreExpression(expression);
     }
 
 }
