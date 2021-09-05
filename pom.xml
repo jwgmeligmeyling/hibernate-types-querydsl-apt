@@ -69,6 +69,13 @@
                 <scope>provided</scope>
                 <optional>true</optional>
             </dependency>
+            <dependency>
+                <groupId>com.blazebit</groupId>
+                <artifactId>blaze-persistence-integration-querydsl-expressions</artifactId>
+                <version>1.6.2</version>
+                <scope>provided</scope>
+                <optional>true</optional>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
