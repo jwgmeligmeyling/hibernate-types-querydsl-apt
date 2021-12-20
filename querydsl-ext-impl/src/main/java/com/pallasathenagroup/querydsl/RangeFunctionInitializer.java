@@ -17,33 +17,15 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction("RANGE_OVERLAPS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
-        metadataBuilder.applySqlFunction("RANGE_CONTAINS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
-        metadataBuilder.applySqlFunction("RANGE_IS_CONTAINED_BY", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
-        metadataBuilder.applySqlFunction("RANGE_STRICTLY_LEFT_OF", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 << ?2"));
-        metadataBuilder.applySqlFunction("RANGE_STRICTLY_RIGHT_OF", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 >> ?2"));
-        metadataBuilder.applySqlFunction("RANGE_ADJACENT_TO", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 -|- ?2"));
-
-        metadataBuilder.applySqlFunction("RANGE_UNION", new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 + ?2") {
-            @Override
-            public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
-                return argumentType;
-            }
-        });
-
-        metadataBuilder.applySqlFunction("RANGE_INTERSECTION", new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 * ?2") {
-            @Override
-            public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
-                return argumentType;
-            }
-        });
-
-        metadataBuilder.applySqlFunction("RANGE_DIFFERENCE", new SQLFunctionTemplate(PostgreSQLGuavaRangeType.INSTANCE, "?1 - ?2") {
-            @Override
-            public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
-                return argumentType;
-            }
-        });
+        metadataBuilder.applySqlFunction("RANGE_OVERLAPS", new Operator(BooleanType.INSTANCE, "&&"));
+        metadataBuilder.applySqlFunction("RANGE_CONTAINS", new Operator(BooleanType.INSTANCE, "@>"));
+        metadataBuilder.applySqlFunction("RANGE_IS_CONTAINED_BY", new Operator(BooleanType.INSTANCE, "<@"));
+        metadataBuilder.applySqlFunction("RANGE_STRICTLY_LEFT_OF", new Operator(BooleanType.INSTANCE, "<<"));
+        metadataBuilder.applySqlFunction("RANGE_STRICTLY_RIGHT_OF", new Operator(BooleanType.INSTANCE, ">>"));
+        metadataBuilder.applySqlFunction("RANGE_ADJACENT_TO", new Operator(BooleanType.INSTANCE, "-|-"));
+        metadataBuilder.applySqlFunction("RANGE_UNION", new Operator(PostgreSQLGuavaRangeType.INSTANCE, "+"));
+        metadataBuilder.applySqlFunction("RANGE_INTERSECTION", new Operator(PostgreSQLGuavaRangeType.INSTANCE, "*"));
+        metadataBuilder.applySqlFunction("RANGE_DIFFERENCE", new Operator(PostgreSQLGuavaRangeType.INSTANCE, "-"));
 
         metadataBuilder.applySqlFunction("RANGE_LOWER_BOUND", new SQLFunctionTemplate(null, "LOWER(?1)") {
             @Override

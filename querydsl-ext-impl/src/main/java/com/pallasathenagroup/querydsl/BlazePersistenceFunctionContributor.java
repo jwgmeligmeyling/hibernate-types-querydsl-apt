@@ -63,6 +63,10 @@ public class BlazePersistenceFunctionContributor implements CriteriaBuilderConfi
         config.registerFunction(new JpqlFunctionGroup("PERIOD_MAX", true));
         config.registerFunction(new JpqlFunctionGroup("PERIOD_MIN", true));
         config.registerFunction(new JpqlFunctionGroup("PERIOD_SUM", true));
+        config.registerFunction(new JpqlFunctionGroup("JSON_CONTAINS_KEY", false));
+        config.registerFunction(new JpqlFunctionGroup("JSON_GET", false));
+        config.registerFunction(new JpqlFunctionGroup("JSON_GET_TEXT", false));
+        config.registerFunction(new JpqlFunctionGroup("JSON_CONCAT", false));
     }
 
 }

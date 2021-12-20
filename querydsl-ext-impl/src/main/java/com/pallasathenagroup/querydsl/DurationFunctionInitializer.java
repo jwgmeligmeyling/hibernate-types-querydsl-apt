@@ -18,10 +18,10 @@ public class DurationFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction("DURATION_ADD", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "?1 + ?2"));
-        metadataBuilder.applySqlFunction("DURATION_SUBTRACT", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "?1 - ?2"));
-        metadataBuilder.applySqlFunction("DURATION_DIVIDE", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "?1 / ?2"));
-        metadataBuilder.applySqlFunction("DURATION_MULTIPLY", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "?1 * ?2"));
+        metadataBuilder.applySqlFunction("DURATION_ADD", new Operator(PostgreSQLIntervalType.INSTANCE, "+"));
+        metadataBuilder.applySqlFunction("DURATION_SUBTRACT", new Operator(PostgreSQLIntervalType.INSTANCE, "-"));
+        metadataBuilder.applySqlFunction("DURATION_DIVIDE", new Operator(PostgreSQLIntervalType.INSTANCE, "/"));
+        metadataBuilder.applySqlFunction("DURATION_MULTIPLY", new Operator(PostgreSQLIntervalType.INSTANCE, "*"));
         metadataBuilder.applySqlFunction("DURATION_BETWEEN", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "?1::timestamp - ?2::timestamp"));
         metadataBuilder.applySqlFunction("DURATION_AVG", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "AVG(?1)"));
         metadataBuilder.applySqlFunction("DURATION_MAX", new SQLFunctionTemplate(PostgreSQLIntervalType.INSTANCE, "MAX(?1)"));
