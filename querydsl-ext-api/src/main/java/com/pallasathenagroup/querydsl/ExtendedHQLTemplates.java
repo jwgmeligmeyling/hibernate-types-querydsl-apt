@@ -66,7 +66,7 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         templates.add(PeriodOps.MIN, "PERIOD_MIN({0})");
         templates.add(PeriodOps.SUM, "PERIOD_SUM({0})");
 
-        templates.add(JsonOps.CONTAINS_KEY, "JSON_CONTAINS_KEY({0}, {1})");
+        templates.add(JsonOps.CONTAINS_KEY, "JSON_CONTAINS_KEY({0}, {1}) = TRUE");
         templates.add(JsonOps.GET, "JSON_GET({0}, {1})");
         templates.add(JsonOps.GET_TEXT, "JSON_GET_TEXT({0}, {1})");
         templates.add(JsonOps.CONCAT, "JSON_CONCAT({0}, {1})");
@@ -76,7 +76,7 @@ public class ExtendedHQLTemplates extends HQLTemplates {
         templates.add(JsonOps.JSON_BUILD_OBJECT, "jsonb_build_object({0})");
         templates.add(JsonOps.JSON_BUILD_ARRAY, "jsonb_build_array({0})");
 
-        templates.add(HstoreOps.CONTAINS_KEY, "HSTORE_CONTAINS_KEY({0}, {1})");
+        templates.add(HstoreOps.CONTAINS_KEY, "HSTORE_CONTAINS_KEY({0}, {1}) = TRUE");
         templates.add(HstoreOps.MAP_SIZE, "HSTORE_MAP_SIZE({0})");
         templates.add(HstoreOps.GET, "HSTORE_GET({0},{1})");
         templates.add(HstoreOps.MAP_IS_EMPTY, "HSTORE_MAP_IS_EMPTY({0})");

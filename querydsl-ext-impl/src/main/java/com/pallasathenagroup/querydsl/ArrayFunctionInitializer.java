@@ -37,20 +37,14 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction("ARRAY_OVERLAPS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 && ?2"));
-        metadataBuilder.applySqlFunction("ARRAY_CONTAINS", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ?2"));
+        metadataBuilder.applySqlFunction("ARRAY_OVERLAPS", new Operator(BooleanType.INSTANCE, "&&"));
+        metadataBuilder.applySqlFunction("ARRAY_CONTAINS", new Operator(BooleanType.INSTANCE, "@>"));
         metadataBuilder.applySqlFunction("ARRAY_CONTAINS_ELEMENT", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ARRAY[?2]"));
-        metadataBuilder.applySqlFunction("ARRAY_IS_CONTAINED_BY", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 <@ ?2"));
+        metadataBuilder.applySqlFunction("ARRAY_IS_CONTAINED_BY", new Operator(BooleanType.INSTANCE, "<@"));
         metadataBuilder.applySqlFunction("ARRAY_DIMS", new SQLFunctionTemplate(StringType.INSTANCE, "ARRAY_DIMS(?1)"));
         metadataBuilder.applySqlFunction("ARRAY_MDIMS", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_MDIMS(?1)"));
         metadataBuilder.applySqlFunction("ARRAY_LENGTH", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_LENGTH(?1, 1)"));
-
-        metadataBuilder.applySqlFunction("ARRAY_CONCAT", new SQLFunctionTemplate(null, "?1 || ?2") {
-            @Override
-            public Type getReturnType(Type argumentType, Mapping mapping) throws QueryException {
-                return argumentType;
-            }
-        });
+        metadataBuilder.applySqlFunction("ARRAY_CONCAT", new Operator(null, "||"));
 
         metadataBuilder.applySqlFunction("ARRAY_APPEND", new SQLFunctionTemplate(null, "ARRAY_APPEND(?1, ?2)") {
             @Override

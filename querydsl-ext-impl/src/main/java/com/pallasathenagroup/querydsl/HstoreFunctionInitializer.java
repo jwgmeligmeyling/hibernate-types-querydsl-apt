@@ -15,12 +15,12 @@ public class HstoreFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction("HSTORE_CONTAINS_KEY", new SQLFunctionTemplate(PostgreSQLHStoreType.INSTANCE, "akeys(?1) @> ARRAY[?2]"));
+        metadataBuilder.applySqlFunction("HSTORE_CONTAINS_KEY", new Operator(BooleanType.INSTANCE, " ?? ")); // Note: First ? is a JDBC escape here.
         metadataBuilder.applySqlFunction("HSTORE_MAP_SIZE", new SQLFunctionTemplate(IntegerType.INSTANCE, "array_length(akeys(?1))"));
-        metadataBuilder.applySqlFunction("HSTORE_GET", new SQLFunctionTemplate(StringType.INSTANCE, "?1->?2"));
-        metadataBuilder.applySqlFunction("HSTORE_GET_MULTIPLE", new SQLFunctionTemplate(StringArrayType.INSTANCE, "?1->?2"));
+        metadataBuilder.applySqlFunction("HSTORE_GET", new Operator(StringType.INSTANCE, "->"));
+        metadataBuilder.applySqlFunction("HSTORE_GET_MULTIPLE", new Operator(StringArrayType.INSTANCE, "->?"));
         metadataBuilder.applySqlFunction("HSTORE_MAP_IS_EMPTY", new SQLFunctionTemplate(BooleanType.INSTANCE, "array_length(akeys(?1)) = 0"));
-        metadataBuilder.applySqlFunction("HSTORE_CONCAT", new SQLFunctionTemplate(PostgreSQLHStoreType.INSTANCE, "?1 || ?2"));
+        metadataBuilder.applySqlFunction("HSTORE_CONCAT", new Operator(PostgreSQLHStoreType.INSTANCE, "||"));
 
         metadataBuilder.applySqlFunction("skeys", new StandardSQLFunction("skeys", StringType.INSTANCE));
         metadataBuilder.applySqlFunction("akeys", new StandardSQLFunction("akeys", StringArrayType.INSTANCE));
