@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <querydsl.version>5.0.0</querydsl.version>
-        <hibernate.version>5.4.10.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <jackson.version>2.9.10.3</jackson.version>
     </properties>
 
