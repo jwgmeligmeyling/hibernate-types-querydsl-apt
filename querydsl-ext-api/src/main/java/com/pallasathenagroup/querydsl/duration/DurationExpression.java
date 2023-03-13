@@ -7,7 +7,8 @@ import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
-import org.hibernate.jpa.TypedParameterValue;
+import org.hibernate.query.TypedParameterValue;
+import org.hibernate.type.CustomType;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
@@ -43,7 +44,7 @@ public class DurationExpression extends TypedParameterValueComparableExpression<
     }
 
     protected Expression<Duration> constant(Duration duration) {
-        return (Expression) Expressions.constant(new TypedParameterValue(PostgreSQLIntervalType.INSTANCE, duration));
+        return (Expression) Expressions.constant(new TypedParameterValue(new CustomType(PostgreSQLIntervalType.INSTANCE, null), duration));
     }
 
     public DurationOperation add(Duration duration) {

@@ -12,7 +12,8 @@ import com.querydsl.core.types.dsl.ComparableExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import com.vladmihalcea.hibernate.type.range.guava.PostgreSQLGuavaRangeType;
-import org.hibernate.jpa.TypedParameterValue;
+import org.hibernate.query.TypedParameterValue;
+import org.hibernate.type.CustomType;
 
 import javax.annotation.Nullable;
 
@@ -25,7 +26,7 @@ public class RangeExpression<X extends Comparable<?>> extends TypedParameterValu
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected Constant<Range<X>> constant(Range<X> other) {
-        return (Constant) ConstantImpl.create(new TypedParameterValue(PostgreSQLGuavaRangeType.INSTANCE, other));
+        return (Constant) ConstantImpl.create(new TypedParameterValue(new CustomType<>(PostgreSQLGuavaRangeType.INSTANCE, null), other));
     }
 
     public BooleanExpression overlaps(Range<X> other) {

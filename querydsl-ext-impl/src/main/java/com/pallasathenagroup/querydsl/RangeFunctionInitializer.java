@@ -17,12 +17,12 @@ public class RangeFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction("RANGE_OVERLAPS", new Operator(BooleanType.INSTANCE, "&&"));
-        metadataBuilder.applySqlFunction("RANGE_CONTAINS", new Operator(BooleanType.INSTANCE, "@>"));
-        metadataBuilder.applySqlFunction("RANGE_IS_CONTAINED_BY", new Operator(BooleanType.INSTANCE, "<@"));
-        metadataBuilder.applySqlFunction("RANGE_STRICTLY_LEFT_OF", new Operator(BooleanType.INSTANCE, "<<"));
-        metadataBuilder.applySqlFunction("RANGE_STRICTLY_RIGHT_OF", new Operator(BooleanType.INSTANCE, ">>"));
-        metadataBuilder.applySqlFunction("RANGE_ADJACENT_TO", new Operator(BooleanType.INSTANCE, "-|-"));
+        metadataBuilder.applySqlFunction("RANGE_OVERLAPS", new Operator(StandardBasicTypes.BOOLEAN, "&&"));
+        metadataBuilder.applySqlFunction("RANGE_CONTAINS", new Operator(StandardBasicTypes.BOOLEAN, "@>"));
+        metadataBuilder.applySqlFunction("RANGE_IS_CONTAINED_BY", new Operator(StandardBasicTypes.BOOLEAN, "<@"));
+        metadataBuilder.applySqlFunction("RANGE_STRICTLY_LEFT_OF", new Operator(StandardBasicTypes.BOOLEAN, "<<"));
+        metadataBuilder.applySqlFunction("RANGE_STRICTLY_RIGHT_OF", new Operator(StandardBasicTypes.BOOLEAN, ">>"));
+        metadataBuilder.applySqlFunction("RANGE_ADJACENT_TO", new Operator(StandardBasicTypes.BOOLEAN, "-|-"));
         metadataBuilder.applySqlFunction("RANGE_UNION", new Operator(PostgreSQLGuavaRangeType.INSTANCE, "+"));
         metadataBuilder.applySqlFunction("RANGE_INTERSECTION", new Operator(PostgreSQLGuavaRangeType.INSTANCE, "*"));
         metadataBuilder.applySqlFunction("RANGE_DIFFERENCE", new Operator(PostgreSQLGuavaRangeType.INSTANCE, "-"));

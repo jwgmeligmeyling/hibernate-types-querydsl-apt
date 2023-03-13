@@ -16,12 +16,12 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <querydsl.version>5.0.0</querydsl.version>
-        <hibernate.version>5.4.10.Final</hibernate.version>
+        <hibernate.version>6.1.5.Final</hibernate.version>
         <jackson.version>2.9.10.3</jackson.version>
     </properties>
 
@@ -44,35 +44,36 @@
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-jpa</artifactId>
                 <version>${querydsl.version}</version>
+                <classifier>jakarta</classifier>
             </dependency>
             <dependency>
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-apt</artifactId>
                 <version>${querydsl.version}</version>
-                <classifier>jpa</classifier>
+                <classifier>jakarta</classifier>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.vladmihalcea</groupId>
                 <artifactId>hibernate-types-52</artifactId>
-                <version>2.12.0</version>
+                <version>2.20.0</version>
             </dependency>
             <dependency>
-                <groupId>org.hibernate</groupId>
+                <groupId>org.hibernate.orm</groupId>
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.blazebit</groupId>
                 <artifactId>blaze-persistence-core-api</artifactId>
-                <version>1.6.2</version>
+                <version>1.6.8</version>
                 <scope>provided</scope>
                 <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>com.blazebit</groupId>
                 <artifactId>blaze-persistence-integration-querydsl-expressions</artifactId>
-                <version>1.6.2</version>
+                <version>1.6.8</version>
                 <scope>provided</scope>
                 <optional>true</optional>
             </dependency>

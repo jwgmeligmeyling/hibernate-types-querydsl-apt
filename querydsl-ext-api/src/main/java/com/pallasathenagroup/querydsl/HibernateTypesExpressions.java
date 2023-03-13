@@ -28,7 +28,8 @@ import com.vladmihalcea.hibernate.type.basic.YearType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLPeriodType;
 import com.vladmihalcea.hibernate.type.range.guava.PostgreSQLGuavaRangeType;
-import org.hibernate.jpa.TypedParameterValue;
+import org.hibernate.query.TypedParameterValue;
+import org.hibernate.type.BasicTypeReference;
 
 import java.lang.reflect.Array;
 import java.time.Duration;
@@ -54,11 +55,13 @@ public final class HibernateTypesExpressions {
     }
 
     public static <T extends Comparable<?>> RangeExpression<T> createRangeExpression(Range<T> range) {
-        return new RangeExpression<T>((Expression) Expressions.constant(new TypedParameterValue(PostgreSQLGuavaRangeType.INSTANCE, range)));
+        BasicTypeReference<? extends Range> basicTypeReference = new BasicTypeReference<>(PostgreSQLGuavaRangeType.INSTANCE.getName(), range.getClass(), PostgreSQLGuavaRangeType.INSTANCE.getSqlType());
+        return new RangeExpression<T>((Expression) Expressions.constant(new TypedParameterValue(basicTypeReference, range)));
     }
 
     public static DurationExpression duration(Duration duration) {
-        return new DurationExpression((Expression) Expressions.constant(new TypedParameterValue(PostgreSQLIntervalType.INSTANCE, duration)));
+        BasicTypeReference basicTypeReference = new BasicTypeReference<>(PostgreSQLIntervalType.INSTANCE.getName(), Duration.class, PostgreSQLIntervalType.INSTANCE.getSqlType());
+        return new DurationExpression((Expression) Expressions.constant(new TypedParameterValue(basicTypeReference, duration)));
     }
 
     public static DurationOperation durationBetween(DateTimeExpression<?> a, DateTimeExpression<?> b) {
@@ -78,7 +81,8 @@ public final class HibernateTypesExpressions {
     }
 
     public static PeriodExpression period(Period period) {
-        return new PeriodExpression((Expression) Expressions.constant(new TypedParameterValue(PostgreSQLPeriodType.INSTANCE, period)));
+        BasicTypeReference basicTypeReference = new BasicTypeReference<>(PostgreSQLPeriodType.INSTANCE.getName(), Duration.class, PostgreSQLPeriodType.INSTANCE.getSqlType());
+        return new PeriodExpression((Expression) Expressions.constant(new TypedParameterValue(basicTypeReference, period)));
     }
 
     public static PeriodOperation periodBetween(DateExpression<?> a, DateExpression<?> b) {

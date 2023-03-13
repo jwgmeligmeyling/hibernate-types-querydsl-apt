@@ -18,7 +18,10 @@ import com.vladmihalcea.hibernate.type.array.LongArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.array.TimestampArrayType;
 import com.vladmihalcea.hibernate.type.array.UUIDArrayType;
-import org.hibernate.jpa.TypedParameterValue;
+import org.hibernate.query.TypedParameterValue;
+import org.hibernate.type.descriptor.java.ArrayJavaType;
+import org.hibernate.type.descriptor.java.UUIDJavaType;
+import org.hibernate.type.internal.BasicTypeImpl;
 
 import javax.annotation.Nullable;
 import java.sql.Timestamp;
@@ -128,7 +131,9 @@ public class PostgresqlArrayExpression<A, T> extends TypedParameterValueSimpleEx
     public static <T> Object getTypedParameterValue(T[] other, String columnDefinition) {
         Class<?> componentType = other.getClass().getComponentType();
         if (componentType.equals(UUID.class)) {
-            return new TypedParameterValue(UUIDArrayType.INSTANCE, other);
+            ArrayJavaType<UUID> uuidArrayJavaType = new ArrayJavaType<>(new UUIDJavaType());
+            BasicTypeImpl<UUID[]> basicType = new BasicTypeImpl<>(uuidArrayJavaType, uuidArrayJavaType.getRecommendedJdbcType(null));
+            return new TypedParameterValue(basicType, other);
         } else if (componentType.equals(String.class)) {
             return new TypedParameterValue(StringArrayType.INSTANCE, other);
         } else if (componentType.equals(int.class) || componentType.equals(Integer.class)) {

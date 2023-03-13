@@ -6,8 +6,8 @@ import com.querydsl.core.types.PathImpl;
 import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.PathMetadataFactory;
 import com.querydsl.core.types.dsl.EntityPathBase;
+import jakarta.persistence.Column;
 
-import javax.persistence.Column;
 import java.lang.reflect.AnnotatedElement;
 
 public class PostgresqlArrayPath<A, T> extends PostgresqlArrayExpression<A, T> implements Path<A> {

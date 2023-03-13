@@ -8,7 +8,8 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLPeriodType;
-import org.hibernate.jpa.TypedParameterValue;
+import org.hibernate.query.TypedParameterValue;
+import org.hibernate.type.CustomType;
 
 import javax.annotation.Nullable;
 import java.time.Period;
@@ -44,7 +45,7 @@ public class PeriodExpression extends TypedParameterValueSimpleExpression<Period
     }
 
     protected Expression<Period> constant(Period Period) {
-        return (Expression) Expressions.constant(new TypedParameterValue(PostgreSQLPeriodType.INSTANCE, Period));
+        return (Expression) Expressions.constant(new TypedParameterValue(new CustomType(PostgreSQLPeriodType.INSTANCE, null), Period));
     }
 
     public PeriodOperation add(Period Period) {

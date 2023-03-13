@@ -15,14 +15,17 @@ import com.vladmihalcea.hibernate.type.util.ReflectionUtils;
 import org.hibernate.QueryException;
 import org.hibernate.TypeHelper;
 import org.hibernate.boot.MetadataBuilder;
+import org.hibernate.boot.model.TypeDefinitionRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.spi.MetadataBuilderInitializer;
 import org.hibernate.dialect.function.SQLFunctionTemplate;
+import org.hibernate.dialect.function.StandardSQLFunction;
 import org.hibernate.engine.spi.Mapping;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.type.BooleanType;
 import org.hibernate.type.CustomType;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
 import org.hibernate.type.descriptor.java.JavaTypeDescriptor;
@@ -37,13 +40,17 @@ public class ArrayFunctionInitializer implements MetadataBuilderInitializer {
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder, StandardServiceRegistry standardServiceRegistry) {
-        metadataBuilder.applySqlFunction("ARRAY_OVERLAPS", new Operator(BooleanType.INSTANCE, "&&"));
-        metadataBuilder.applySqlFunction("ARRAY_CONTAINS", new Operator(BooleanType.INSTANCE, "@>"));
-        metadataBuilder.applySqlFunction("ARRAY_CONTAINS_ELEMENT", new SQLFunctionTemplate(BooleanType.INSTANCE, "?1 @> ARRAY[?2]"));
-        metadataBuilder.applySqlFunction("ARRAY_IS_CONTAINED_BY", new Operator(BooleanType.INSTANCE, "<@"));
-        metadataBuilder.applySqlFunction("ARRAY_DIMS", new SQLFunctionTemplate(StringType.INSTANCE, "ARRAY_DIMS(?1)"));
-        metadataBuilder.applySqlFunction("ARRAY_MDIMS", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_MDIMS(?1)"));
-        metadataBuilder.applySqlFunction("ARRAY_LENGTH", new SQLFunctionTemplate(IntegerType.INSTANCE, "ARRAY_LENGTH(?1, 1)"));
+
+        metadataBuilder.applySqlFunction("s", new StandardSQLFunction(""));
+        metadataBuilder.applySqlFunction("s", new StandardSQLFunction(""));
+
+        metadataBuilder.applySqlFunction("ARRAY_OVERLAPS", new Operator(StandardBasicTypes.BOOLEAN, "&&"));
+        metadataBuilder.applySqlFunction("ARRAY_CONTAINS", new Operator(StandardBasicTypes.BOOLEAN, "@>"));
+        metadataBuilder.applySqlFunction("ARRAY_CONTAINS_ELEMENT", new SQLFunctionTemplate(StandardBasicTypes.BOOLEAN, "?1 @> ARRAY[?2]"));
+        metadataBuilder.applySqlFunction("ARRAY_IS_CONTAINED_BY", new Operator(StandardBasicTypes.BOOLEAN, "<@"));
+        metadataBuilder.applySqlFunction("ARRAY_DIMS", new StandardSQLFunction("ARRAY_DIMS", StandardBasicTypes.STRING));
+        metadataBuilder.applySqlFunction("ARRAY_MDIMS", new SQLFunctionTemplate(StandardBasicTypes.INTEGER, "ARRAY_MDIMS(?1)"));
+        metadataBuilder.applySqlFunction("ARRAY_LENGTH", new SQLFunctionTemplate(StandardBasicTypes.INTEGER, "ARRAY_LENGTH(?1, 1)"));
         metadataBuilder.applySqlFunction("ARRAY_CONCAT", new Operator(null, "||"));
 
         metadataBuilder.applySqlFunction("ARRAY_APPEND", new SQLFunctionTemplate(null, "ARRAY_APPEND(?1, ?2)") {
